@@ -1,3 +1,5 @@
+"use client"; // Add this at the top of the file
+
 import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
 import L from 'leaflet';
@@ -47,7 +49,7 @@ const Map: React.FC<MapProps> = ({ nodes }) => {
     <MapContainer
       center={[10.3119, 123.8731]} // Center the map at Barangay Tisa
       zoom={14}
-      style={{ width: '100%', height: '500px' }}
+      style={{ width: '100%', height: '100vh' }} // Set map height to 100vh for full screen
       ref={mapRef}
     >
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
