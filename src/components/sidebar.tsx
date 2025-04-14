@@ -1,96 +1,51 @@
 "use client";
 
-import {
-  Box,
-  Drawer,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
-  AppBar,
-  Toolbar,
-  Typography,
-  ListItemButton,
-} from "@mui/material";
-import MapIcon from "@mui/icons-material/Map";
-import HistoryIcon from "@mui/icons-material/History";
-import SensorsIcon from "@mui/icons-material/Sensors";
-import PeopleIcon from "@mui/icons-material/People";
 import Link from "next/link";
+import { Map, Rss, History, Users } from "lucide-react";
 
-const drawerWidth = 240;
-
-export default function Sidebar({ children }: { children: React.ReactNode }) {
+export default function Sidebar() {
   return (
-    <Box sx={{ display: "flex", height: "100vh" }}> {/* Ensure full height */}
-      <AppBar position="fixed" sx={{ zIndex: 1201 }}>
-        <Toolbar>
-          <Typography variant="h6" noWrap>
-            Noise Monitoring
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
-      <Drawer
-        variant="permanent"
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
-            width: drawerWidth,
-            boxSizing: "border-box",
-          },
-        }}
-      >
-        <Toolbar />
-        <List>
-          <ListItem disablePadding>
-            <ListItemButton component={Link} href="/dashboard">
-              <ListItemIcon>
-                <MapIcon />
-              </ListItemIcon>
-              <ListItemText primary="Dashboard" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component={Link} href="/nodes">
-              <ListItemIcon>
-                <SensorsIcon />
-              </ListItemIcon>
-              <ListItemText primary="Nodes" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component={Link} href="/history">
-              <ListItemIcon>
-                <HistoryIcon />
-              </ListItemIcon>
-              <ListItemText primary="History" />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton component={Link} href="/users">
-              <ListItemIcon>
-                <PeopleIcon />
-              </ListItemIcon>
-              <ListItemText primary="Users" />
-            </ListItemButton>
-          </ListItem>
-        </List>
-      </Drawer>
-
-      {/* Main Content Area */}
-      <Box
-        component="main"
-        sx={{
-          flexGrow: 1,
-          p: 3,
-          height: "100vh", // Ensure the map fills the screen vertically
-        }}
-      >
-        <Toolbar />
-        {children}
-      </Box>
-    </Box>
+    <div className="fixed h-[calc(100vh-64px)] w-20 bg-[#103A5E] shadow-md flex flex-col">
+      <nav className="flex-1 p-2">
+        <ul className="space-y-4 mt-2">
+          <li>
+            <Link
+              href="/dashboard"
+              className="flex flex-col items-center p-2 rounded-md w-full hover:bg-[#005b8f] hover:text-white transition-all duration-200"
+            >
+              <Map className="w-6 h-6 text-white" />
+              <span className="text-xs text-white mt-1">Dashboard</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/nodes"
+              className="flex flex-col items-center p-2 rounded-md w-full hover:bg-[#005b8f] hover:text-white transition-all duration-200"
+            >
+              <Rss className="w-6 h-6 text-white" />
+              <span className="text-xs text-white mt-1">Nodes</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/history"
+              className="flex flex-col items-center p-2 rounded-md w-full hover:bg-[#005b8f] hover:text-white transition-all duration-200"
+            >
+              <History className="w-6 h-6 text-white" />
+              <span className="text-xs text-white mt-1">History</span>
+            </Link>
+          </li>
+          <li>
+            <Link
+              href="/users"
+              className="flex flex-col items-center p-2 rounded-md w-full hover:bg-[#005b8f] hover:text-white transition-all duration-200"
+            >
+              <Users className="w-6 h-6 text-white" />
+              <span className="text-xs text-white mt-1">Users</span>
+            </Link>
+          </li>
+        </ul>
+      </nav>
+    </div>
   );
 }

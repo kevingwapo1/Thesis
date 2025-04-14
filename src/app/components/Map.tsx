@@ -1,70 +1,50 @@
-"use client"; // Add this at the top of the file
-
-import React, { useEffect, useRef } from 'react';
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet';
-import L from 'leaflet';
-import 'leaflet/dist/leaflet.css';
+import { LatLngExpression } from 'leaflet';
+import 'leaflet/dist/leaflet.css'; // Import Leaflet styles
+import React from 'react';
 
-interface Node {
-  id: number;
-  name: string;
-  lat: number;
-  lng: number;
-  noiseLevel: number; // noise level value for the node
-}
+// Noise Levels and Colors
+const noiseLevels = [
+  { label: 'Very Quiet', color: 'lightgreen', range: '0–30 dB' },
+  { label: 'Quiet', color: 'lightblue', range: '31–40 dB' },
+  { label: 'Moderate', color: 'yellow', range: '41–55 dB' },
+  { label: 'Loud', color: 'orange', range: '56–70 dB' },
+  { label: 'Very Loud', color: 'red', range: '71–85 dB' },
+  { label: 'Extremely Loud', color: 'darkred', range: '86–100 dB' },
+  { label: 'Painful', color: 'purple', range: '101–120+ dB' },
+];
 
-interface MapProps {
-  nodes: Node[];
-}
-
-const Map: React.FC<MapProps> = ({ nodes }) => {
-  const mapRef = useRef<any>(null); // reference to the map instance
-
-  // Create a custom icon for markers
-  const createCustomIcon = (noiseLevel: number) => {
-    let color = 'green';
-
-    if (noiseLevel > 70) {
-      color = 'red';
-    } else if (noiseLevel > 40) {
-      color = 'yellow';
-    }
-
-    return new L.Icon({
-      iconUrl: `https://cdn.jsdelivr.net/npm/leaflet@1.7.1/dist/images/marker-icon-${color}.png`,
-      iconSize: [25, 41],
-      iconAnchor: [12, 41],
-      popupAnchor: [1, -34],
-    });
-  };
-
-  useEffect(() => {
-    // Initialize the map
-    if (mapRef.current) {
-      mapRef.current.leafletElement.invalidateSize(); // Ensures the map resizes correctly
-    }
-  }, [nodes]);
-
+const Map: React.FC<{ nodes: any[] }> = ({ nodes }) => {
   return (
-    <MapContainer
-      center={[10.3119, 123.8731]} // Center the map at Barangay Tisa
-      zoom={14}
-      style={{ width: '100%', height: '100vh' }} // Set map height to 100vh for full screen
-      ref={mapRef}
-    >
+    <MapContainer center={[10.3120, 123.8732]} zoom={13} style={{ height: '80vh', width: '100%' }}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
-      {nodes.map((node) => (
-        <Marker
-          key={node.id}
-          position={[node.lat, node.lng]}
-          icon={createCustomIcon(node.noiseLevel)}
-        >
-          <Popup>
-            <h3>{node.name}</h3>
-            <p>Noise Level: {node.noiseLevel} dB</p>
-          </Popup>
-        </Marker>
-      ))}
+      {nodes.map((node) => {
+        const level = noiseLevels.find((level) => level.label === node.noiseLevel);
+        const position: LatLngExpression = [node.lat, node.lng];
+
+        return (
+          <Marker key={node.id} position={position}>
+            <Popup>
+              <div>
+                <h3>{node.name}</h3>
+                <p>Noise Peak: {node.noiseLevel} dB</p>
+                <p>
+                  <span
+                    style={{
+                      backgroundColor: level?.color,
+                      color: 'white',
+                      padding: '4px',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    {level?.label} ({level?.range})
+                  </span>
+                </p>
+              </div>
+            </Popup>
+          </Marker>
+        );
+      })}
     </MapContainer>
   );
 };

@@ -1,14 +1,23 @@
-import { ReactNode } from "react";
-import Sidebar from "../components/sidebar"; // Import Sidebar component
+import "./globals.css"; // ✅ Don't forget this
 
-// Root Layout
-export default function Layout({ children }: { children: ReactNode }) {
+import Header from "@/components/header";
+import Sidebar from "@/components/sidebar";
+import { ReactNode } from "react";
+
+export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en"> {/* Ensure no extra spaces or newlines */}
-      <body> {/* Ensure no extra spaces or newlines */}
-        <Sidebar> {/* Your Sidebar component */}
-          {children} {/* This will render the content passed to the Sidebar */}
-        </Sidebar>
+    <html lang="en">
+      <body className="bg-gray-100">
+        {/* Header always on top */}
+        <Header />
+
+        {/* Page content: sidebar + main area */}
+        <div className="flex mt-[64px]"> {/* Added mt-[64px] to push content below header */}
+          <Sidebar />
+          <main className="ml-20 flex-1 p-4 overflow-y-auto">
+            {children}
+          </main>
+        </div>
       </body>
     </html>
   );
