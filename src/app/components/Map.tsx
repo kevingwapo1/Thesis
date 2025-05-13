@@ -16,7 +16,7 @@ const noiseLevels = [
 
 const Map: React.FC<{ nodes: any[] }> = ({ nodes }) => {
   return (
-    <MapContainer center={[10.3120, 123.8732]} zoom={13} style={{ height: '80vh', width: '100%' }}>
+    <MapContainer center={[10.3120, 123.8732]} zoom={13} style={{ height: '100%', width: '100%', position:'fixed'}}>
       <TileLayer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" />
       {nodes.map((node) => {
         const level = noiseLevels.find((level) => level.label === node.noiseLevel);

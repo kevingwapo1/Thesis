@@ -14,7 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         {/* Page content: sidebar + main area */}
         <div className="flex mt-[64px]"> {/* Added mt-[64px] to push content below header */}
           <Sidebar />
-          <main className="ml-20 flex-1 p-4 overflow-y-auto">
+          <main className="ml-20 flex-1 overflow-y-auto">
             {children}
           </main>
         </div>
